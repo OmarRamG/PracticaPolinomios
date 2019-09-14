@@ -33,12 +33,13 @@ public class Practica1 {
         Polinomio B = new Polinomio();
         Polinomio C = new Polinomio();
         
-        A.establecerCoeficientes();
-        B.establecerCoeficientes();
+        A.establecerCoeficientes(opcion);
+        B.establecerCoeficientes(opcion);
         
         System.out.println("Polinomio(s) generados: ");
         A.imprimirPolinomio();
         B.imprimirPolinomio();
+        
         System.out.println("Ingrese su respuesta: ");
             
         System.out.println("Polinomio resultante: ");
@@ -54,6 +55,8 @@ public class Practica1 {
                 C.imprimirPolinomio();
                 break;
             case 3:
+                C.multiplicacion(A,B);
+                C.imprimirPolinomio();
                 break;
             case 4:
                 break;

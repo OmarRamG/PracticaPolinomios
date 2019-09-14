@@ -17,9 +17,16 @@ public class Polinomio {
     
     
     
-    public void establecerCoeficientes(){
+    public void establecerCoeficientes(int opcion){
         Random r = new Random();
-        int grado = (r.nextInt(6)) + 1;
+        int grado;
+        if(opcion == 3){
+            grado = (r.nextInt(3)) + 1;
+        }
+        else{
+            grado = (r.nextInt(6)) + 1;
+        }
+        
         for(int i=0; i<=grado; i++){
             coeficiente.add(r.nextInt(10));
         }
@@ -70,6 +77,21 @@ public class Polinomio {
     }
     
     public void multiplicacion(Polinomio A,Polinomio B){
+        int sumaProductos;
+        int productoExponentes = 0;
+        for(int z = 0; z<7; z++){
+            sumaProductos = 0;
+            for(int i =0; i< A.coeficiente.size(); i++){
+                for(int j = 0; j < B.coeficiente.size();j++){
+                    if((i+j) == productoExponentes){
+                        sumaProductos = sumaProductos + (A.coeficiente.get(i) * B.coeficiente.get(j));
+                    }
+                }
+            }
+            
+            productoExponentes++;
+            this.coeficiente.add(sumaProductos);
+        }
         
     }
     
