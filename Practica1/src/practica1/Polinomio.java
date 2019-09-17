@@ -31,10 +31,19 @@ public class Polinomio {
             coeficiente.add(r.nextInt(10));
         }
         
+        if(opcion == 4){
+           coeficiente.remove(grado);
+           coeficiente.add(1);
+        }
+        
         if(coeficiente.get(grado) == 0 && grado==1){
            coeficiente.remove(grado);
            coeficiente.add(r.nextInt(9)+1);
         }
+    }
+    
+    public void establecerCoeficientes(String pol){
+        
     }
     
     public void suma(Polinomio A,Polinomio B){
@@ -96,7 +105,39 @@ public class Polinomio {
     }
     
     public void division(Polinomio A,Polinomio B){
+        ArrayList <Integer> cocientes = new ArrayList<>();
+        int cont = 0;
+        int contR = 0;
+        if(A.coeficiente.size() >= B.coeficiente.size()){
+         for(int i = 0;i<=(A.coeficiente.size() - B.coeficiente.size());i++){
+            cocientes.add(A.coeficiente.get(((A.coeficiente.size()-1))-cont) / B.coeficiente.get(B.coeficiente.size()-1));
+            for(int j=B.coeficiente.size()-1;j>=0;j--){
+                A.coeficiente.set((A.coeficiente.size()-1)-cont-contR,(A.coeficiente.get((A.coeficiente.size()-1)-cont-contR)) + (B.coeficiente.get(j)*cocientes.get(i)*(-1)));
+                contR++;
+            }
+            
+            cont++;
+            contR=0;
+         }
+        }
+        else{
+            if(B.coeficiente.size() > A.coeficiente.size()){
+                for(int i = 0;i<=(B.coeficiente.size() - A.coeficiente.size());i++){
+                    cocientes.add((B.coeficiente.get((B.coeficiente.size()-1))-cont) / A.coeficiente.get(A.coeficiente.size()-1));
+                    for(int j=A.coeficiente.size()-1;j>=0;j--){
+                        B.coeficiente.set((B.coeficiente.size()-1)-cont-contR,(B.coeficiente.get((B.coeficiente.size()-1)-cont-contR)) + (A.coeficiente.get(j)*cocientes.get(i))*(-1));
+                        contR++;
+                    }
+
+                    cont++;
+                    contR=0;
+                }
+            }
+        }
         
+        for(int z=cocientes.size()-1;z>=0;z--){
+            this.coeficiente.add(cocientes.get(z));
+        }
     }
     
     public void imprimirPolinomio(){
@@ -126,7 +167,9 @@ public class Polinomio {
             }
             
         }
-        System.out.print("=0");
+        
+        if(!(this.coeficiente.size()==1))
+            System.out.print("=0");
         System.out.println("\n");
         
     }

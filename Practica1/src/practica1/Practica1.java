@@ -17,6 +17,7 @@ public class Practica1 {
      */
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
+        String pol;
         System.out.println("Álgebra de Polinomios\n");
         System.out.println("1 Suma");
         System.out.println("2 Resta");
@@ -41,8 +42,18 @@ public class Practica1 {
         B.imprimirPolinomio();
         
         System.out.println("Ingrese su respuesta: ");
-            
-        System.out.println("Polinomio resultante: ");
+        pol = teclado.next();
+        
+        if(opcion == 4)
+            System.out.println("Cociente de la división: ");
+        else{
+            if(opcion == 5){
+                System.out.println("Raíces del polinomio: ");
+            }
+            else{
+                System.out.println("Polinomio resultante: ");   
+            }
+        }
         
         
         switch(opcion){
@@ -59,6 +70,8 @@ public class Practica1 {
                 C.imprimirPolinomio();
                 break;
             case 4:
+                C.division(A,B);
+                C.imprimirPolinomio();
                 break;
             case 5:
                 break;
