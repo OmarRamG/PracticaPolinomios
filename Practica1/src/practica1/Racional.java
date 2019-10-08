@@ -9,7 +9,6 @@ package practica1;
  *
  * @author Alumno
  */
-import java.util.*;
 public class Racional {
     private int num;
     private int den;
@@ -36,20 +35,27 @@ public class Racional {
 	
 	
         
-
-	
-	
-	public void multiplicar(Racional X, Racional Y)
+        public static Racional sumar(Racional r1,Racional r2)
 	{
-		this.num= (X.num) * (Y.num) ;
-		this.den = (X.den) * (Y.den); 
+		Racional R = new Racional((r1.num * r2.den)+(r2.num * r1.den),r1.den * r2.den);
+		return R;
 	}
 	
-	public Racional multiplicar (Racional r1,Racional r2)
+	public static Racional restar(Racional r1,Racional r2)
 	{
-		Racional R = new Racional(,);
-		R.num=this.num;
-		R.den=this.den;
+		Racional R = new Racional((r1.num * r2.den)-(r2.num * r1.den),r1.den * r2.den);
+		return R;
+	}
+	
+	public static Racional multi(Racional r1,Racional r2)
+	{
+		Racional R = new Racional(r1.num * r2.num,r1.den * r2.den);
+		return R;
+	}
+        
+        public static Racional dividir(Racional r1,Racional r2)
+	{
+		Racional R = new Racional(r1.num * r2.den,r1.den * r2.num);
 		return R;
 	}
 	
@@ -74,17 +80,19 @@ public class Racional {
 	
         public void simplificar(){
             int a=num, b=den;
-           while(b>0){
-         
-           if(a>b){
-               a = a - b;
-           }
-           else{
-               b = b - a;
-           }
+           if(!(a == 0)){
+            while(b>0){
+
+            if(a>b){
+                a = a - b;
+            }
+            else{
+                b = b - a;
+            }
+          }
+          num=num/a;
+          den=den/a;
          }
-         num=num/a;
-         den=den/a;
         }
 
 }

@@ -42,14 +42,17 @@ public class Polinomio {
         
         for(int i=0; i<=grado; i++){
         	if(grado==2) {
-                coeficiente.add(new Monomio(new Racional(r.nextInt(9)+1,r.nextInt(9)+1),i,'x'));    		
+                coeficiente.add(new Monomio(new Racional(r.nextInt(10),r.nextInt(9)+1),i,'x'));    		
         	}
         	else {
-                coeficiente.add(new Monomio(new Racional(r.nextInt(9)+1,r.nextInt(9)+1),i,'x'));
+                coeficiente.add(new Monomio(new Racional(r.nextInt(10),r.nextInt(9)+1),i,'x'));
         	}
         }
 
-        
+        if(coeficiente.get(grado).obtenerCoef().obtenerNum() == 0){
+            coeficiente.remove(grado);
+            coeficiente.add(new Monomio(new Racional(r.nextInt(9)+1,r.nextInt(9)+1),grado,'x'));
+        }
     }
     
     /**
@@ -99,11 +102,13 @@ public class Polinomio {
      * @param A
      * @param B
      */
-    /*
+    
     public void suma(Polinomio A,Polinomio B){
+        Monomio m = new Monomio();
         if(A.coeficiente.size() >=  B.coeficiente.size()){
             for(int i =0; i<B.coeficiente.size();i++){
-                this.coeficiente.add(A.coeficiente.get(i) + B.coeficiente.get(i));
+                m = B.coeficiente.get(i).sumarMonomios(A.coeficiente.get(i));
+                this.coeficiente.add(m);
             }
             for(int j = B.coeficiente.size();j<A.coeficiente.size();j++){
                 this.coeficiente.add(A.coeficiente.get(j));
@@ -111,7 +116,8 @@ public class Polinomio {
         }
         else{
             for(int i =0; i<A.coeficiente.size();i++){
-                this.coeficiente.add(A.coeficiente.get(i) + B.coeficiente.get(i));
+                m = A.coeficiente.get(i).sumarMonomios(B.coeficiente.get(i));
+                this.coeficiente.add(m);
             }
             for(int j = A.coeficiente.size();j<B.coeficiente.size();j++){
                 this.coeficiente.add(B.coeficiente.get(j));
@@ -125,11 +131,13 @@ public class Polinomio {
      * @param A
      * @param B
      */
-    /*
+    
     public void resta(Polinomio A,Polinomio B){
+        Monomio m = new Monomio();
         if(A.coeficiente.size() >=  B.coeficiente.size()){
             for(int i =0; i<B.coeficiente.size();i++){
-                this.coeficiente.add(A.coeficiente.get(i) - B.coeficiente.get(i));
+                m = A.coeficiente.get(i).restarMonomios(B.coeficiente.get(i));
+                this.coeficiente.add(m);
             }
             for(int j = B.coeficiente.size();j<A.coeficiente.size();j++){
                 this.coeficiente.add(A.coeficiente.get(j));
@@ -137,10 +145,11 @@ public class Polinomio {
         }
         else{
             for(int i =0; i<A.coeficiente.size();i++){
-                this.coeficiente.add(A.coeficiente.get(i) - B.coeficiente.get(i));
+                m = A.coeficiente.get(i).restarMonomios(B.coeficiente.get(i));
+                this.coeficiente.add(m);
             }
             for(int j = A.coeficiente.size();j<B.coeficiente.size();j++){
-                this.coeficiente.add(0 - B.coeficiente.get(j));
+                this.coeficiente.add(new Monomio(new Racional(0 - B.coeficiente.get(j).obtenerCoef().obtenerNum(),B.coeficiente.get(j).obtenerCoef().obtenerDen()),j,'x'));
             }
         }
     }
@@ -277,17 +286,31 @@ public class Polinomio {
      *
      * @param opcion
      */
+    public void reducir(){
+        for(int i=0;i<coeficiente.size();i++){
+            coeficiente.get(i).obtenerCoef().simplificar();
+        }
+    }
     
     public void imprimirPolinomio(){
-        
-
+        int cont = 0;
+        for(int j = 0; j<coeficiente.size() && coeficiente.get(j).obtenerCoef().obtenerNum() == 0; j++){
+            cont++;
+        }
         for(int i = coeficiente.size()-1;i>=0;i--){
-            
-            coeficiente.get(i).obtenerCoef().simplificar();
-            System.out.print(coeficiente.get(i).obtenerCoef().toString()+"x^"+i);
+            if(!(coeficiente.get(i).obtenerCoef().obtenerNum() == 0)){
+                //coeficiente.get(i).obtenerCoef().simplificar();
+                if(i == 0)
+                    System.out.print(coeficiente.get(i).obtenerCoef().toString());
+                else
+                    System.out.print(coeficiente.get(i).obtenerCoef().toString()+"x^"+i);
+                if(i > cont){
+                    System.out.print("+");    
+                }
+            }
             
         }
-        
+        System.out.print("=0");
         System.out.print("\n");
     }
     

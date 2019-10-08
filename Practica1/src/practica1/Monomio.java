@@ -14,6 +14,9 @@ public class Monomio {
     private int grado;
     private char variable;
     
+    public Monomio(){
+    }
+    
     public Monomio(String cad){
         
     }
@@ -22,6 +25,38 @@ public class Monomio {
         this.coeficiente = coeficiente;
         this.grado = grado;
         this.variable = variable;
+    }
+    
+    public Monomio sumarMonomios(Monomio mono){
+        Monomio m = new Monomio();
+        m.variable = mono.variable;
+        m.grado = mono.grado;
+        m.coeficiente = Racional.sumar(this.coeficiente, mono.coeficiente);
+        return m;
+    }
+    
+    public Monomio restarMonomios(Monomio mono){
+        Monomio m = new Monomio();
+        m.variable = mono.variable;
+        m.grado = mono.grado;
+        m.coeficiente = Racional.restar(this.coeficiente, mono.coeficiente);
+        return m;
+    }
+    
+    public Monomio multiMonomios(Monomio mono){
+        Monomio m = new Monomio();
+        m.variable = mono.variable;
+        m.grado = mono.grado + this.grado;
+        m.coeficiente = Racional.multi(this.coeficiente, mono.coeficiente);
+        return m;
+    }
+    
+    public Monomio dividirMonomios(Monomio mono){
+        Monomio m = new Monomio();
+        m.variable = mono.variable;
+        m.grado = this.grado - mono.grado;
+        m.coeficiente = Racional.dividir(this.coeficiente, mono.coeficiente);
+        return m;
     }
     
     public Racional obtenerCoef(){
