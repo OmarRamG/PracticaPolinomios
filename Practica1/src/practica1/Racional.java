@@ -79,7 +79,7 @@ public class Racional {
 	
 	
         public void simplificar(){
-            int a=num, b=den;
+            int a=Math.abs(num), b=Math.abs(den);
            if(!(a == 0)){
             while(b>0){
 

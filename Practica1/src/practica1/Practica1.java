@@ -53,45 +53,50 @@ public class Practica1 {
            A.imprimirPolinomio();
            B.imprimirPolinomio();
        }
-        /*if(opcion!=6&&opcion!=8) {
-        System.out.println("Ingrese su respuesta (Incluir el número 1): ");
-        pol = teclado.next();
-        D.establecerCoeficientes(pol);
-        
-        System.out.println("Respuesta:");
-        }*/
+        if(opcion!=6&&opcion!=8) {
+            System.out.println("Ingrese su respuesta (Incluir el número 1): ");
+            pol = teclado.next();
+            D.establecerCoeficientes(pol);
+
+            System.out.println("Respuesta:");
+        }
         
         switch(opcion){
             case 1:
                 C.suma(A, B);
                 C.reducir();
-                C.imprimirPolinomio();
-                //D.imprimirPolinomio(opcion);
-                //C.comparar(D);
+                D.imprimirPolinomio();
+                C.imprimirPolinomio();    
+                C.comparar(D);
                 break;
             case 2:
                 C.resta(A,B);
-                //C.reducir();
+                C.reducir();
+                D.imprimirPolinomio();
                 C.imprimirPolinomio();
-                //D.imprimirPolinomio(opcion);
-                //C.comparar(D);
+                C.comparar(D);
                 break;
             case 3:
-                /*C.multiplicacion(A,B);
-                C.imprimirPolinomio(opcion);
-                D.imprimirPolinomio(opcion);
+                C.multiplicacion(A,B);
+                C.reducir();
+                D.imprimirPolinomio();
+                C.imprimirPolinomio();
                 C.comparar(D);
-                break;*/
+                break;
             case 4:
-                /*C.division(A,B);
-                C.imprimirPolinomio(opcion);
+                C.division(A,B);
+                C.reducir();
+                D.imprimirPolinomio();
+                C.imprimirPolinomio();
                 C.comparar(D);
-                break;*/
+                break;
             case 5:
-            	/*C.derivada(A);
-            	C.imprimirPolinomio(opcion);
+            	C.derivada(A);
+                C.reducir();
+                D.imprimirPolinomio();
+            	C.imprimirPolinomio();
             	C.comparar(D);
-                break;*/
+                break;
             case 6:
             	/*opcion=7;
             	System.out.print("Digite el valor de x a evaluar: ");

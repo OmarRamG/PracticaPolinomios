@@ -6,8 +6,8 @@
 package practica1;
 
 /**
- *
- * @author Alumno
+ *                  (67/67)
+ * @author Alumno  (345/56)x^2
  */
 public class Monomio {
     private Racional coeficiente;
@@ -18,7 +18,22 @@ public class Monomio {
     }
     
     public Monomio(String cad){
+        String fraccion;
+        String frac[];
+        variable = 'x';
+        if(cad.contains("x")){
+            fraccion = cad.substring(1,cad.length()-4);
+            frac = fraccion.split("/");
+            grado = Integer.parseInt(cad.substring(cad.length()-1, cad.length()));
+            
+        }
+        else{
+            fraccion = cad.substring(1,cad.length()-1);
+            frac = fraccion.split("/");
+            grado = 0;
+        }
         
+        coeficiente = new Racional(Integer.parseInt(frac[0]),Integer.parseInt(frac[1]));
     }
     
     public Monomio(Racional coeficiente,int grado,char variable){
@@ -61,5 +76,8 @@ public class Monomio {
     
     public Racional obtenerCoef(){
         return coeficiente;
+    }
+    public int obtenerGrado(){
+        return grado;
     }
 }

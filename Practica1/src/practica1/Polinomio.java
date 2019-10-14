@@ -59,26 +59,16 @@ public class Polinomio {
      *
      * @param pol
      */
-    /*public void establecerCoeficientes(String pol){
-    	String[] p = pol.split("x");
+    public void establecerCoeficientes(String pol){
+    	String[] p = pol.split("\\+");
     	int x = 0;
-    	ArrayList <Integer> num = new ArrayList <>();
+    	ArrayList <Monomio> num = new ArrayList <>();
     	ArrayList <Integer> exp = new ArrayList <>();
     	
     	for(int i = 0; i<p.length;i++) {
-    		if(i==0) {
-    			num.add(Integer.parseInt(p[i]));
-    		}
-    		else {
-    			if(p[i].length() >= 4){
-    				num.add(Integer.parseInt(p[i].substring(2,p[i].length())));
-                        }
-    			exp.add(Integer.parseInt(String.valueOf(p[i].charAt(1))));
-    		}
+    		num.add(new Monomio(p[i]));
+                exp.add(num.get(i).obtenerGrado());
     	}
-    	
-    	if(exp.size() < num.size())
-    		exp.add(0);
     	
     	for(int c = num.size()-1;c>=0;c--) {
     		this.coeficiente.add(num.get(c));
@@ -91,7 +81,7 @@ public class Polinomio {
     		}
     		
     		if(x == 0)
-    			this.coeficiente.add(j,0);
+    			this.coeficiente.add(j,new Monomio(new Racional(0,1),j,'x'));
     		
     		x = 0;
     	}
@@ -159,22 +149,26 @@ public class Polinomio {
      * @param A
      * @param B
      */
-    /*
+    
     public void multiplicacion(Polinomio A,Polinomio B){
-        int sumaProductos = 0;
+        Racional sumaProductos;
+        Monomio m;
         int productoExponentes = 0;
         for(int z = 0; z<=(A.coeficiente.size() + B.coeficiente.size())-2; z++){
-            sumaProductos = 0;
+            sumaProductos = new Racional(0,1);
             for(int i =0; i< A.coeficiente.size(); i++){
                 for(int j = 0; j < B.coeficiente.size();j++){
                     if((i+j) == productoExponentes){
-                        sumaProductos = sumaProductos + (A.coeficiente.get(i) * B.coeficiente.get(j));
+                        sumaProductos = Racional.sumar(sumaProductos,Racional.multi(A.coeficiente.get(i).obtenerCoef(),B.coeficiente.get(j).obtenerCoef()));
                     }
                 }
             }
-            
+            if(sumaProductos.obtenerNum() == 0)
+                m = new Monomio(new Racional(sumaProductos.obtenerNum(),1),productoExponentes,'x'); 
+            else
+                m = new Monomio(sumaProductos,productoExponentes,'x');
+            this.coeficiente.add(m);
             productoExponentes++;
-            this.coeficiente.add(sumaProductos);
         }
         
     }
@@ -184,16 +178,16 @@ public class Polinomio {
      * @param A
      * @param B
      */
-    /*
+    
     public void division(Polinomio A,Polinomio B){
-        ArrayList <Integer> cocientes = new ArrayList<>();
+        ArrayList <Racional> cocientes = new ArrayList<>();
         int cont = 0;
         int contR = 0;
         if(A.coeficiente.size() >= B.coeficiente.size()){
          for(int i = 0;i<=(A.coeficiente.size() - B.coeficiente.size());i++){
-            cocientes.add(A.coeficiente.get(((A.coeficiente.size()-1))-cont) / B.coeficiente.get(B.coeficiente.size()-1));
+            cocientes.add(Racional.dividir(A.coeficiente.get(((A.coeficiente.size()-1))-cont).obtenerCoef(),B.coeficiente.get(B.coeficiente.size()-1).obtenerCoef()));  
             for(int j=B.coeficiente.size()-1;j>=0;j--){
-                A.coeficiente.set((A.coeficiente.size()-1)-cont-contR,(A.coeficiente.get((A.coeficiente.size()-1)-cont-contR)) + (B.coeficiente.get(j)*cocientes.get(i)*(-1)));
+                A.coeficiente.set((A.coeficiente.size()-1)-cont-contR,new Monomio(Racional.sumar(A.coeficiente.get((A.coeficiente.size()-1)-cont-contR).obtenerCoef(),Racional.multi(Racional.multi(cocientes.get(i),new Racional(-1,1)),B.coeficiente.get(j).obtenerCoef())),j,'x'));
                 contR++;
             }
             
@@ -204,9 +198,9 @@ public class Polinomio {
         else{
             if(B.coeficiente.size() > A.coeficiente.size()){
                 for(int i = 0;i<=(B.coeficiente.size() - A.coeficiente.size());i++){
-                    cocientes.add((B.coeficiente.get((B.coeficiente.size()-1))-cont) / A.coeficiente.get(A.coeficiente.size()-1));
+                    cocientes.add(Racional.dividir(B.coeficiente.get(((B.coeficiente.size()-1))-cont).obtenerCoef(),A.coeficiente.get(A.coeficiente.size()-1).obtenerCoef()));
                     for(int j=A.coeficiente.size()-1;j>=0;j--){
-                        B.coeficiente.set((B.coeficiente.size()-1)-cont-contR,(B.coeficiente.get((B.coeficiente.size()-1)-cont-contR)) + (A.coeficiente.get(j)*cocientes.get(i)*(-1)));
+                        B.coeficiente.set((B.coeficiente.size()-1)-cont-contR,new Monomio(Racional.sumar(B.coeficiente.get((B.coeficiente.size()-1)-cont-contR).obtenerCoef(),Racional.multi(Racional.multi(cocientes.get(i),new Racional(-1,1)),A.coeficiente.get(j).obtenerCoef())),j,'x'));
                         contR++;
                     }
 
@@ -216,8 +210,8 @@ public class Polinomio {
             }
         }
         
-        for(int z=cocientes.size()-1;z>=0;z--){
-            this.coeficiente.add(cocientes.get(z));
+        for(int z=0;z<cocientes.size();z++){
+            this.coeficiente.add(new Monomio(cocientes.get((cocientes.size()-1)-z),z,'x'));
         }
     }
     
@@ -225,10 +219,12 @@ public class Polinomio {
      *
      * @param A
      */
-    /*
+    
     public void derivada(Polinomio A){
-    	for(int i=1;i<A.coeficiente.size();i++) {
-    		this.coeficiente.add(A.coeficiente.get(i) * i);
+        if(A.coeficiente.get(0).obtenerGrado() == 0)
+            A.coeficiente.remove(0);
+    	for(int i=0;i<A.coeficiente.size();i++) {
+    		this.coeficiente.add(new Monomio(Racional.multi(A.coeficiente.get(i).obtenerCoef(), new Racional(A.coeficiente.get(i).obtenerGrado(),1)),A.coeficiente.get(i).obtenerGrado()-1,'x'));
     	}
     }
     
@@ -299,7 +295,6 @@ public class Polinomio {
         }
         for(int i = coeficiente.size()-1;i>=0;i--){
             if(!(coeficiente.get(i).obtenerCoef().obtenerNum() == 0)){
-                //coeficiente.get(i).obtenerCoef().simplificar();
                 if(i == 0)
                     System.out.print(coeficiente.get(i).obtenerCoef().toString());
                 else
@@ -310,7 +305,9 @@ public class Polinomio {
             }
             
         }
-        System.out.print("=0");
+        if(!(coeficiente.size() == 1)){
+            System.out.print("=0");
+        }
         System.out.print("\n");
     }
     
@@ -322,7 +319,7 @@ public class Polinomio {
     	boolean x = true;
         if(this.coeficiente.size() == B.coeficiente.size()){
     		for(int i =0; i<B.coeficiente.size(); i++) {
-    			if(!(this.coeficiente.get(i) == B.coeficiente.get(i))) {
+    			if(!(this.coeficiente.get(i).obtenerCoef().obtenerNum() == B.coeficiente.get(i).obtenerCoef().obtenerNum() && this.coeficiente.get(i).obtenerCoef().obtenerDen() == B.coeficiente.get(i).obtenerCoef().obtenerDen())) {
    
     				x = false; 
     				break;
